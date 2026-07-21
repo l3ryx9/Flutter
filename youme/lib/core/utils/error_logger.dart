@@ -7,6 +7,7 @@ class ErrorLogEntry {
   final DateTime timestamp;
   final String tag;
   final String message;
+  // SÉCURITÉ : en release, les stack traces ne sont jamais stockées
   final String? stackTrace;
 
   ErrorLogEntry({
@@ -20,7 +21,8 @@ class ErrorLogEntry {
         'timestamp': timestamp.toIso8601String(),
         'tag': tag,
         'message': message,
-        if (stackTrace != null) 'stackTrace': stackTrace,
+        // Stack traces uniquement en debug
+        if (kDebugMode && stackTrace != null) 'stackTrace': stackTrace,
       };
 
   factory ErrorLogEntry.fromJson(Map<String, dynamic> json) => ErrorLogEntry(
@@ -32,7 +34,8 @@ class ErrorLogEntry {
 
   @override
   String toString() =>
-      '[${timestamp.toLocal()}] [$tag] $message${stackTrace != null ? '\n$stackTrace' : ''}';
+      '[${timestamp.toLocal()}] [$tag] $message'
+      '${kDebugMode && stackTrace != null ? '\n$stackTrace' : ''}';
 }
 
 class ErrorLogger {
@@ -49,17 +52,24 @@ class ErrorLogger {
     final entry = ErrorLogEntry(
       timestamp: DateTime.now(),
       tag: tag,
-      message: message,
-      stackTrace: stackTrace?.toString(),
+      // SÉCURITÉ : en release, le message est tronqué à 200 caractères
+      // pour éviter de stocker des données sensibles dans les logs
+      message: kDebugMode ? message : message.substring(0, message.length.clamp(0, 200)),
+      // SÉCURITÉ : stack traces uniquement en debug
+      stackTrace: kDebugMode ? stackTrace?.toString() : null,
     );
     _entries.add(entry);
     if (_entries.length > AppConstants.maxErrorLogEntries) {
       _entries.removeAt(0);
     }
     _saveToStorage();
+
+    // SÉCURITÉ : debugPrint uniquement en mode debug (jamais en release)
     if (kDebugMode) {
       debugPrint('[YouMe][$tag] $message');
     }
+    // En release : aucune sortie console (les logs Android sont désactivés
+    // via ProGuard dans proguard-rules.pro)
   }
 
   static List<ErrorLogEntry> get entries => List.unmodifiable(_entries);
@@ -69,7 +79,9 @@ class ErrorLogger {
     _prefs?.remove(_key);
   }
 
+  /// Export des logs — disponible uniquement en debug
   static String export() {
+    if (!kDebugMode) return '';
     return _entries.map((e) => e.toString()).join('\n---\n');
   }
 
@@ -78,12 +90,16 @@ class ErrorLogger {
     if (raw == null) return;
     try {
       final list = jsonDecode(raw) as List<dynamic>;
-      _entries.addAll(list.map((e) => ErrorLogEntry.fromJson(e as Map<String, dynamic>)));
+      _entries.addAll(list
+          .map((e) => ErrorLogEntry.fromJson(e as Map<String, dynamic>)));
     } catch (_) {}
   }
 
   static void _saveToStorage() {
-    final raw = jsonEncode(_entries.take(AppConstants.maxErrorLogEntries).map((e) => e.toJson()).toList());
+    final raw = jsonEncode(_entries
+        .take(AppConstants.maxErrorLogEntries)
+        .map((e) => e.toJson())
+        .toList());
     _prefs?.setString(_key, raw);
   }
 }

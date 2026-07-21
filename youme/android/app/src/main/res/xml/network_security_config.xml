@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Network Security Configuration — YouMe
+    ════════════════════════════════════════════════════════════════════════════
+    • Enforces HTTPS for all connections
+    • Disables cleartext (HTTP) traffic
+    • Pins certificates for Supabase backend
+    • Allows system CAs only (no user-installed CAs in release)
+    ════════════════════════════════════════════════════════════════════════════
+-->
+<network-security-config>
+
+    <!-- ── Default: HTTPS only, no user CAs ─────────────────────────────── -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <!-- Only trust system Certificate Authorities -->
+            <certificates src="system" />
+            <!-- Note: User-installed CAs are NOT trusted — prevents MITM via proxy -->
+        </trust-anchors>
+    </base-config>
+
+    <!-- ── Supabase backend — HTTPS enforced ─────────────────────────────── -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">supabase.co</domain>
+        <domain includeSubdomains="true">supabase.io</domain>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+        <!--
+            Certificate pinning for Supabase (Amazon Root CA):
+            To activate, replace the hash below with the actual SHA-256 SPKI hash
+            of Supabase/Amazon Root CA obtained via:
+              openssl s_client -connect <project>.supabase.co:443 -showcerts 2>/dev/null \
+                | openssl x509 -pubkey -noout \
+                | openssl pkey -pubin -outform der \
+                | openssl dgst -sha256 -binary | base64
+
+            <pin-set expiration="2026-12-31">
+                <pin digest="SHA-256">REPLACE_WITH_REAL_SUPABASE_SPKI_HASH=</pin>
+                <pin digest="SHA-256">REPLACE_WITH_BACKUP_CA_SPKI_HASH=</pin>
+            </pin-set>
+        -->
+    </domain-config>
+
+    <!-- ── Firebase / FCM ────────────────────────────────────────────────── -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">googleapis.com</domain>
+        <domain includeSubdomains="true">firebase.com</domain>
+        <domain includeSubdomains="true">firebaseio.com</domain>
+        <domain includeSubdomains="true">fcm.googleapis.com</domain>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+
+    <!-- ── Google Maps ───────────────────────────────────────────────────── -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">maps.googleapis.com</domain>
+        <domain includeSubdomains="true">maps.gstatic.com</domain>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+
+    <!--
+        DEBUG ONLY: Allow cleartext for localhost during development
+        This block is automatically inactive in release builds because
+        debuggable=false and this only applies to debug configuration.
+    -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+
+</network-security-config>

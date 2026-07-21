@@ -9,14 +9,16 @@ import 'supabase_service.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  ErrorLogger.log('FCM Background', 'Message received: ${message.messageId}');
+  // SÉCURITÉ : ne jamais loguer le contenu des messages en background
+  // (les données FCM peuvent contenir des informations sensibles)
+  ErrorLogger.log('FCM Background', 'Message received');
 }
 
 class NotificationService {
   static final _messaging = FirebaseMessaging.instance;
   static final _localNotif = FlutterLocalNotificationsPlugin();
 
-  /// Global navigator key — must be set in main app (YouMeApp).
+  /// Global navigator key — doit être défini dans YouMeApp.
   static GlobalKey<NavigatorState>? navigatorKey;
 
   static Future<void> initialize() async {
@@ -33,7 +35,7 @@ class NotificationService {
       onDidReceiveNotificationResponse: _onLocalNotifTap,
     );
 
-    // Create notification channel
+    // Créer le canal de notification Android
     const channel = AndroidNotificationChannel(
       AppConstants.notifChannelId,
       AppConstants.notifChannelName,
@@ -44,13 +46,13 @@ class NotificationService {
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
-    // Handle foreground messages
+    // Écouter les messages en foreground
     FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
 
-    // Handle notification tap when app was in background
+    // Écouter les taps de notification quand l'app était en background
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageOpened);
 
-    // Handle notification tap when app was terminated
+    // Gérer le tap de notification quand l'app était terminée
     final initial = await _messaging.getInitialMessage();
     if (initial != null) {
       _navigateFromData(initial.data);
@@ -70,7 +72,8 @@ class NotificationService {
     try {
       return await _messaging.getToken();
     } catch (e) {
-      ErrorLogger.log('FCM getToken', e.toString());
+      // SÉCURITÉ : ne pas loguer l'erreur complète (peut contenir des infos device)
+      ErrorLogger.log('FCM getToken', 'Token retrieval failed');
       return null;
     }
   }
@@ -89,14 +92,14 @@ class NotificationService {
         'updated_at': DateTime.now().toIso8601String(),
       });
     } catch (e) {
-      ErrorLogger.log('FCM saveToken', e.toString());
+      ErrorLogger.log('FCM saveToken', 'Token save failed');
     }
   }
 
   static String _platform() {
     try {
       if (const bool.fromEnvironment('dart.library.html')) return 'web';
-      return 'android'; // fallback; real detection via Platform.isIOS
+      return 'android';
     } catch (_) {
       return 'android';
     }
@@ -123,22 +126,22 @@ class NotificationService {
   }
 
   static void _handleMessageOpened(RemoteMessage message) {
-    ErrorLogger.log('FCM Opened', 'Data: ${message.data}');
+    // SÉCURITÉ : ne jamais loguer message.data (contenu potentiellement sensible)
+    ErrorLogger.log('FCM Opened', 'Notification tapped');
     _navigateFromData(message.data);
   }
 
-  /// Called when user taps a local notification
+  /// Appelé quand l'utilisateur tape sur une notification locale
   static void _onLocalNotifTap(NotificationResponse response) {
     final payload = response.payload;
     if (payload == null) return;
-    // payload format: "type:conversationId"
     final parts = payload.split(':');
     if (parts.length >= 2) {
       _navigateTo(parts[0], parts[1]);
     }
   }
 
-  /// Build a payload string from FCM data map
+  /// Construit un payload string depuis les données FCM
   static String? _payloadFromData(Map<String, dynamic> data) {
     final type = data['type'] as String?;
     final conversationId = data['conversation_id'] as String?;
@@ -148,7 +151,7 @@ class NotificationService {
     return null;
   }
 
-  /// Navigate based on FCM data payload
+  /// Navigation basée sur les données FCM
   static void _navigateFromData(Map<String, dynamic> data) {
     final type = data['type'] as String?;
     final conversationId = data['conversation_id'] as String?;

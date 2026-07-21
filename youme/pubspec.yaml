@@ -37,6 +37,18 @@ dependencies:
   encrypt: ^5.0.3
   convert: ^3.1.1
 
+  # ── SÉCURITÉ ────────────────────────────────────────────────────────────
+  # Stockage sécurisé : Android Keystore (AES-256-GCM) / iOS Keychain
+  flutter_secure_storage: ^9.2.2
+
+  # Détection root / jailbreak / émulateur
+  safe_device: ^1.1.1
+
+  # Informations sur l'appareil (détection émulateur)
+  device_info_plus: ^10.1.0
+
+  # ── FIN SÉCURITÉ ─────────────────────────────────────────────────────────
+
   # Media
   image_picker: ^1.1.2
   file_picker: ^8.1.2
