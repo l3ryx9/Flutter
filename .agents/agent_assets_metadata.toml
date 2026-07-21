@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "x6nnVf4Di6xDjDI95AIWg"
+uri = "file://youme_flutter.zip"
+type = "unspecified"
+title = "YouMe — Projet Flutter complet"
