@@ -250,57 +250,48 @@ ALTER TABLE public.profiles  ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.messages  ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.conversations ENABLE ROW LEVEL SECURITY;
 
--- Policies pour profiles (si pas déjà créées)
-DO $$
-BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_policies WHERE tablename = 'profiles' AND policyname = 'profiles_select_own'
-  ) THEN
-    CREATE POLICY "profiles_select_own" ON public.profiles
-      FOR SELECT USING (auth.uid() = id);
-    CREATE POLICY "profiles_update_own" ON public.profiles
-      FOR UPDATE USING (auth.uid() = id);
-    -- Lecture publique des profils pour afficher les noms/avatars
-    CREATE POLICY "profiles_select_public" ON public.profiles
-      FOR SELECT USING (true);
-  END IF;
-END $$;
+-- Policies pour profiles (idempotent policy par policy)
+DROP POLICY IF EXISTS "profiles_select_own" ON public.profiles;
+DROP POLICY IF EXISTS "profiles_update_own" ON public.profiles;
+DROP POLICY IF EXISTS "profiles_select_public" ON public.profiles;
+
+CREATE POLICY "profiles_select_own" ON public.profiles
+  FOR SELECT USING (auth.uid() = id);
+CREATE POLICY "profiles_update_own" ON public.profiles
+  FOR UPDATE USING (auth.uid() = id);
+-- Lecture publique des profils pour afficher les noms/avatars
+CREATE POLICY "profiles_select_public" ON public.profiles
+  FOR SELECT USING (true);
 
 -- Policies pour messages
-DO $$
-BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_policies WHERE tablename = 'messages' AND policyname = 'messages_select'
-  ) THEN
-    CREATE POLICY "messages_select" ON public.messages
-      FOR SELECT USING (
-        EXISTS (
-          SELECT 1 FROM public.conversations
-          WHERE id = messages.conversation_id
-            AND auth.uid() = ANY(participant_ids)
-        )
-      );
-    CREATE POLICY "messages_insert" ON public.messages
-      FOR INSERT WITH CHECK (auth.uid() = sender_id);
-    CREATE POLICY "messages_update_own" ON public.messages
-      FOR UPDATE USING (auth.uid() = sender_id);
-  END IF;
-END $$;
+DROP POLICY IF EXISTS "messages_select" ON public.messages;
+DROP POLICY IF EXISTS "messages_insert" ON public.messages;
+DROP POLICY IF EXISTS "messages_update_own" ON public.messages;
+
+CREATE POLICY "messages_select" ON public.messages
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM public.conversations
+      WHERE id = messages.conversation_id
+        AND auth.uid() = ANY(participant_ids)
+    )
+  );
+CREATE POLICY "messages_insert" ON public.messages
+  FOR INSERT WITH CHECK (auth.uid() = sender_id);
+CREATE POLICY "messages_update_own" ON public.messages
+  FOR UPDATE USING (auth.uid() = sender_id);
 
 -- Policies pour conversations
-DO $$
-BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_policies WHERE tablename = 'conversations' AND policyname = 'conv_select'
-  ) THEN
-    CREATE POLICY "conv_select" ON public.conversations
-      FOR SELECT USING (auth.uid() = ANY(participant_ids));
-    CREATE POLICY "conv_insert" ON public.conversations
-      FOR INSERT WITH CHECK (auth.uid() = ANY(participant_ids));
-    CREATE POLICY "conv_update" ON public.conversations
-      FOR UPDATE USING (auth.uid() = ANY(participant_ids));
-  END IF;
-END $$;
+DROP POLICY IF EXISTS "conv_select" ON public.conversations;
+DROP POLICY IF EXISTS "conv_insert" ON public.conversations;
+DROP POLICY IF EXISTS "conv_update" ON public.conversations;
+
+CREATE POLICY "conv_select" ON public.conversations
+  FOR SELECT USING (auth.uid() = ANY(participant_ids));
+CREATE POLICY "conv_insert" ON public.conversations
+  FOR INSERT WITH CHECK (auth.uid() = ANY(participant_ids));
+CREATE POLICY "conv_update" ON public.conversations
+  FOR UPDATE USING (auth.uid() = ANY(participant_ids));
 
 -- ─── Index de performance ────────────────────────────────────────────
 CREATE INDEX IF NOT EXISTS idx_messages_conversation_created
