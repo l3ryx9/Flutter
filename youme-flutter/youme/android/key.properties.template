@@ -1,0 +1,17 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# key.properties.template — YouMe Android Signing
+#
+# ⚠️  INSTRUCTIONS :
+#   1. Copiez ce fichier et renommez-le "key.properties" (sans .template)
+#   2. Remplissez les valeurs ci-dessous
+#   3. key.properties est dans .gitignore — NE JAMAIS commiter ce fichier
+#
+# Pour générer un keystore de release :
+#   keytool -genkey -v -keystore release.keystore -keyalg RSA \
+#           -keysize 4096 -validity 10000 -alias youme
+# ═══════════════════════════════════════════════════════════════════════════
+
+storeFile=release.keystore
+storePassword=VOTRE_MOT_DE_PASSE_KEYSTORE
+keyAlias=youme
+keyPassword=VOTRE_MOT_DE_PASSE_CLE

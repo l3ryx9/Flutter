@@ -12,9 +12,3 @@ id = "87tgKlKixrFs53I0ZsQ4E"
 uri = "file://flutter_youme.zip"
 type = "unspecified"
 title = "YouMe – Projet Flutter Tropical Paradise"
-
-[[outputs]]
-id = "e6lumkPMaGne2Bm14rLNo"
-uri = "file://youme-flutter-secured.zip"
-type = "unspecified"
-title = "YouMe — Projet complet sécurisé"
