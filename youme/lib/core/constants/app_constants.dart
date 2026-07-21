@@ -4,12 +4,12 @@ class AppConstants {
   static const String appName = 'YouMe';
   static const String appVersion = '1.0.0';
 
-  // Supabase
-  static const String supabaseUrl = 'https://YOUR_PROJECT.supabase.co';
-  static const String supabaseAnonKey = 'YOUR_ANON_KEY';
+  // Supabase — récupérez la clé anon dans Supabase > Settings > API
+  static const String supabaseUrl = 'https://kqgididioyztbtcddmhz.supabase.co';
+  static const String supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY'; // ← à remplir
 
-  // Google Maps
-  static const String googleMapsApiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
+  // Google Maps — obtenez votre clé sur console.cloud.google.com
+  static const String googleMapsApiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // ← à remplir
 
   // Crypto
   static const int keyLength = 32;
