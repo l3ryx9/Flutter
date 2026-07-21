@@ -1,126 +1,109 @@
 # YouMe — Rapport de Sécurité
 
-_Audit réalisé le 2026-07-21_
+_Audit réalisé et migration exécutée le 2026-07-21_
 
 ---
 
-## ✅ Points positifs
+## ✅ Corrections appliquées (commits 96a7988 + migration directe)
 
-| Élément | Détail |
-|---|---|
-| Supabase Row Level Security | Activé sur toutes les tables (voir migration SQL) |
-| E2EE (chiffrement de bout en bout) | ECDH prime256v1 + AES-GCM 256 implémenté |
-| Anti-bot | Calcul arithmétique + délai minimum 3s côté client |
-| Suppression de compte | Double confirmation ("SUPPRIMER" + mot de passe) |
-| Clé Gemini | Stockée en variable d'environnement Supabase Edge Function, jamais dans le code |
-| Debug screen | Bloqué en mode `kReleaseMode` (production inaccessible) |
-| Sessions | Gérées par Supabase Auth (rotation de tokens) |
-| Logs d'erreur | Limités à 500 entrées (anti-overflow) |
-
----
-
-## 🔴 Problèmes critiques (corrigés dans ce commit)
-
-### 1. E2EE non activé
-**Avant** : Messages envoyés en clair malgré la présence du chiffrement.  
-**Après** : `EncryptionService.encrypt()` appelé dans `_sendText()`. Bannière d'état E2EE dans l'interface.
-
-### 2. Credentials Supabase placeholders
-**Avant** : `'https://YOUR_PROJECT.supabase.co'` / `'YOUR_ANON_KEY'`  
-**Après** : URL réelle mise à jour. **La clé anon doit être complétée par le développeur** (voir `app_constants.dart`).
-
-### 3. Tables manquantes (13/16)
-**Avant** : Seules `profiles`, `messages`, `conversations` existaient. Les fonctionnalités IA/contacts/notifications ne pouvaient pas persister de données.  
-**Après** : Script SQL `supabase/migrations/001_create_missing_tables.sql` avec RLS complet sur toutes les tables.
+| # | Problème | Sévérité | Statut |
+|---|---|---|---|
+| 1 | E2EE non activé — messages envoyés en clair | 🔴 Critique | ✅ Corrigé |
+| 2 | URL Supabase en placeholder dans le code | 🔴 Critique | ✅ Corrigé |
+| 3 | Tables manquantes (AppFlo attendait 16 tables, base en avait 3) | 🔴 Critique | ✅ 13 tables créées |
+| 4 | 8 tables avec RLS activé mais 0 policies | 🔴 Critique | ✅ Policies ajoutées |
+| 5 | Debug screen accessible à tous les utilisateurs | 🟡 Moyen | ✅ Bloqué kReleaseMode |
+| 6 | Localisation Paris (48.8566) codée en dur | 🟡 Moyen | ✅ GPS réel (Geolocator) |
+| 7 | Upload d'image non implémenté | 🟡 Moyen | ✅ Supabase Storage |
+| 8 | Navigation push notification manquante | 🟡 Moyen | ✅ Routage par type |
+| 9 | Réactions aux messages vides | 🟢 Mineur | ✅ Upsert message_reactions |
 
 ---
 
-## 🟡 Problèmes modérés (corrigés)
+## 📋 Tables Supabase — État final (33 tables)
 
-### 4. Debug screen accessible à tous
-**Avant** : Route `/home/debug` accessible à tout utilisateur authentifié.  
-**Après** : Bloqué en `kReleaseMode` — affiche "Accès restreint" en production.
-
-### 5. Localisation Paris codée en dur
-**Avant** : `location_lat: 48.8566, location_lng: 2.3522` hardcodé.  
-**Après** : `Geolocator.getCurrentPosition()` avec demande de permission explicite.
-
-### 6. Upload d'image non implémenté
-**Avant** : TODO vide dans `_pickImage()`.  
-**Après** : Upload vers Supabase Storage (`media` bucket) + insertion message.
-
-### 7. Navigation sur tap de notification absente
-**Avant** : `_handleMessageOpened` se contentait de logger.  
-**Après** : Navigation intelligente selon le type (`message` → chat, `flag` → flags, etc.).
-
-### 8. Réactions aux messages vides
-**Avant** : `_reactToMessage()` vide.  
-**Après** : Upsert dans `message_reactions` via Supabase.
+| Table | RLS | Policies | Notes |
+|---|---|---|---|
+| `profiles` | ✅ | 3 | select_public, update_own, insert_own |
+| `messages` | ✅ | 4 | select/insert/update (participants + sender) |
+| `conversations` | ✅ | 6 | select/insert/update (participants) |
+| `contacts` | ✅ | 2 | select (both), all (user_id) |
+| `contact_requests` | ✅ | 3 | select, insert (sender), update (receiver) |
+| `message_reactions` | ✅ | 2 | select (participants), all (user_id) |
+| `ai_message_insights` | ✅ | 1 | select_own |
+| `conversation_analysis` | ✅ | 1 | select_own |
+| `relationship_flags` | ✅ | 1 | select_own |
+| `psychological_profiles` | ✅ | 1 | select_own |
+| `daily_summaries` | ✅ | 1 | select (participants) |
+| `highlighted_facts` | ✅ | 1 | select_own |
+| `monthly_summaries` | ✅ | 1 | select (participants) |
+| `device_tokens` | ✅ | 1 | all (user_id) |
+| `live_locations` | ✅ | 2 | select (participants), upsert (user_id) |
+| `bot_protection_logs` | ✅ | 0 | ✅ Intentionnel — service_role only |
+| `comportements` | ✅ | 1 | select (participants) |
+| `compteurs_conversation` | ✅ | 1 | select (participants) |
+| `profils_personnalite` | ✅ | 1 | select (personne_id ou participants) |
+| `resumes_quotidiens` | ✅ | 1 | select (participants) |
+| `scores_relationnels` | ✅ | 1 | select (personne_id ou participants) |
+| `rate_limit_events` | ✅ | 0 | ✅ Intentionnel — service_role only |
+| `security_logs` | ✅ | 0 | ✅ Intentionnel — service_role only |
+| `app_logs` | ✅ | 2 | ✅ Existant |
+| `location_requests` | ✅ | 3 | ✅ Existant |
+| `location_shares` | ✅ | 4 | ✅ Existant |
+| `partner_requests` | ✅ | 4 | ✅ Existant |
+| `partners` | ✅ | 3 | ✅ Existant |
+| `public_profiles` | ✅ | 4 | ✅ Existant |
+| `resumes_mensuels` | ✅ | 1 | ✅ Existant |
+| `stealth_tracking` | ✅ | 3 | ✅ Existant |
+| `usernames` | ✅ | 3 | ✅ Existant |
+| `users` | ✅ | 4 | ✅ Existant |
 
 ---
 
-## 🟡 Recommandations restantes (à implémenter)
+## 🟡 Recommandations restantes
 
-### Priorité haute
+### Priorité haute — à faire maintenant
 
-1. **Clé anon Supabase dans le code source**  
-   La `supabaseAnonKey` est une clé publique par design, mais ne doit PAS être dans le dépôt Git en clair.  
-   **Solution recommandée** : Utiliser `--dart-define` au build ou `flutter_dotenv`.
+1. **Clé anon Supabase manquante dans le code**
+   Renseigner dans `youme/lib/core/constants/app_constants.dart` :
+   ```dart
+   static const String supabaseAnonKey = 'eyJ...'; // Supabase > Settings > API > anon public
+   ```
+   Sans cette clé, l'app ne peut pas se connecter.
 
-2. **Stockage des clés E2EE**  
-   Actuellement dans `SharedPreferences` (non sécurisé).  
-   **Solution** : Migrer vers `flutter_secure_storage` (Keychain iOS / Keystore Android).
+2. **Révoquer le PAT Supabase** utilisé pour la migration
+   → https://app.supabase.com/account/tokens
 
-3. **Anti-bot serveur**  
-   La validation du calcul arithmétique est côté client (contournable).  
-   **Solution** : Valider via Edge Function `validate-bot` avant toute inscription.
-
-4. **Clé Google Maps**  
-   `YOUR_GOOGLE_MAPS_API_KEY` doit être remplacée et restreinte à l'application (SHA-1).
+3. **Stockage clés E2EE**
+   Migrer de `SharedPreferences` vers `flutter_secure_storage`
+   (Keychain iOS / Keystore Android)
 
 ### Priorité moyenne
 
-5. **Rate limiting sur l'Edge Function `gemini-chat`**  
-   Sans limite, un utilisateur peut générer des coûts Gemini illimités.
+4. **Anti-bot serveur** — validation arithmétique côté client uniquement, contournable
+   Implémenter validation dans Edge Function `validate-bot`
 
-6. **Sanitisation des logs**  
-   `ErrorLogger` peut capturer des données personnelles dans les stack traces.  
-   Implémenter une fonction de filtrage avant sauvegarde.
+5. **Clé Google Maps** — remplacer `YOUR_GOOGLE_MAPS_API_KEY`
 
-7. **Expiration des tokens FCM**  
-   Nettoyer les tokens invalides dans `device_tokens` périodiquement.
+6. **Rate limiting Gemini** — limiter les appels par utilisateur/minute
 
----
-
-## 📋 Tables Supabase — Statut RLS
-
-| Table | Existe | RLS | Notes |
-|---|---|---|---|
-| `profiles` | ✅ | ✅ | Lecture publique pour affichage |
-| `messages` | ✅ | ✅ | Select limité aux participants |
-| `conversations` | ✅ | ✅ | Select limité aux participants |
-| `contacts` | ✅* | ✅ | *Créé par migration 001 |
-| `contact_requests` | ✅* | ✅ | *Créé par migration 001 |
-| `message_reactions` | ✅* | ✅ | *Créé par migration 001 |
-| `ai_message_insights` | ✅* | ✅ | Insert via service_role uniquement |
-| `conversation_analysis` | ✅* | ✅ | Insert via service_role uniquement |
-| `relationship_flags` | ✅* | ✅ | Insert via service_role uniquement |
-| `psychological_profiles` | ✅* | ✅ | Insert via service_role uniquement |
-| `daily_summaries` | ✅* | ✅ | Select limité aux participants |
-| `highlighted_facts` | ✅* | ✅ | *Créé par migration 001 |
-| `monthly_summaries` | ✅* | ✅ | Select limité aux participants |
-| `device_tokens` | ✅* | ✅ | Accès uniquement à ses propres tokens |
-| `live_locations` | ✅* | ✅ | Select limité aux participants |
-| `bot_protection_logs` | ✅* | ✅ | Aucune policy anon (service_role only) |
-
-*À créer via `supabase/migrations/001_create_missing_tables.sql`
+7. **Expiration tokens FCM** — nettoyer les tokens invalides périodiquement
 
 ---
 
-## 🚀 Prochaines étapes recommandées
+## 🔐 Architecture E2EE
 
-1. Exécuter `supabase/migrations/001_create_missing_tables.sql` dans Supabase > SQL Editor
-2. Récupérer la clé `anon` dans Supabase > Settings > API et la mettre dans `app_constants.dart`
-3. Migrer le stockage des clés E2EE vers `flutter_secure_storage`
-4. Configurer `--dart-define` pour les variables d'environnement
-5. Configurer les Edge Functions Supabase avec la clé Gemini
+```
+Alice                               Bob
+  │                                   │
+  ├── génère paire (pub_A, priv_A)    ├── génère paire (pub_B, priv_B)
+  ├── publie pub_A → profiles         ├── publie pub_B → profiles
+  │                                   │
+  ├── lit pub_B                       ├── lit pub_A
+  ├── ECDH(priv_A, pub_B) → secret   ├── ECDH(priv_B, pub_A) → secret
+  ├── HKDF(secret) → AES-256 key     ├── HKDF(secret) → AES-256 key
+  │   (même clé côté Alice et Bob)   │
+  ├── AES-GCM encrypt(message, key)  │
+  ├──────── encrypted_text ──────────►│
+                                      ├── AES-GCM decrypt(encrypted_text, key)
+```
