@@ -13,7 +13,7 @@
  *   5. Écrit ci/logs/build-summary.json + attempt-N.log
  *
  * Variables d'environnement :
- *   GEMINI_API_KEY   — requis pour l'auto-correction (sinon simple build)
+ *   API_KEY          — clé Gemini requise pour l'auto-correction (sinon simple build)
  *   GEMINI_MODEL     — défaut : gemini-2.0-flash
  *   BUILD_TARGET     — apk (défaut) | appbundle
  *   MAX_ATTEMPTS     — défaut : 3
@@ -31,7 +31,8 @@ fs.mkdirSync(LOG_DIR, { recursive: true });
 
 const MAX_ATTEMPTS = Math.max(1, parseInt(process.env.MAX_ATTEMPTS || '3', 10));
 const TARGET = process.env.BUILD_TARGET === 'appbundle' ? 'appbundle' : 'apk';
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
+// Nouvelle clé Gemini : variable d'environnement API_KEY (fallback: GEMINI_API_KEY)
+const API_KEY = process.env.API_KEY || process.env.GEMINI_API_KEY || '';
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
 
 const DEBUG_INFO_DIR = TARGET === 'apk' ? 'build/debug-info' : 'build/debug-info-aab';
@@ -40,7 +41,7 @@ const ARTIFACT_PATH =
     ? 'build/app/outputs/flutter-apk/app-release.apk'
     : 'build/app/outputs/bundle/release/app-release.aab';
 
-const SECRET_KEYS = ['SUPABASE_URL', 'SUPABASE_ANON_KEY', 'GOOGLE_MAPS_KEY', 'GEMINI_API_KEY'];
+const SECRET_KEYS = ['SUPABASE_URL', 'SUPABASE_ANON_KEY', 'GOOGLE_MAPS_KEY', 'GEMINI_API_KEY', 'API_KEY'];
 
 // Commandes de réparation que l'IA a le droit de proposer
 const ALLOWED_COMMANDS = [/^flutter\s+clean\b/, /^flutter\s+pub\b/, /^dart\s+pub\b/, /^dart\s+fix\b/];
@@ -137,7 +138,7 @@ async function askGeminiForFix(buildLog, attempt) {
     '- Si aucune correction automatique n\'est possible, renvoie files et commands vides avec une explication.',
   ].join('\n');
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${API_KEY}`;
   const body = {
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
     generationConfig: { temperature: 0.2, responseMimeType: 'application/json' },
@@ -214,8 +215,8 @@ function applyFix(fix, attempt) {
     console.log(`\n❌ Build échoué (tentative ${attempt}).`);
     printTail(output);
 
-    if (!GEMINI_API_KEY) {
-      console.log('ℹ️  GEMINI_API_KEY absent — auto-correction IA désactivée.');
+    if (!API_KEY) {
+      console.log('ℹ️  API_KEY absent — auto-correction IA désactivée.');
       break;
     }
     if (attempt >= MAX_ATTEMPTS) break;
