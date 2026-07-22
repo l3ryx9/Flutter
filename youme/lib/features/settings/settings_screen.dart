@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/widgets/wood_card.dart';
 import 'bloc/settings_bloc.dart';
-import '../../auth/bloc/auth_bloc.dart';
+import '../auth/bloc/auth_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
