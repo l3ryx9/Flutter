@@ -24,3 +24,9 @@ id = "HlxbWcAdvO3ntqTdGOyoH"
 uri = "file://youme-release.keystore"
 type = "unspecified"
 title = "youme-release.keystore — À sauvegarder précieusement"
+
+[[outputs]]
+id = "n1ygR95OBVGygh4M2KNfM"
+uri = "file://youme-complet.zip"
+type = "unspecified"
+title = "YouMe — Tous les fichiers (projet + keystore)"
