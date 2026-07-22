@@ -1,0 +1,89 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# .gitignore — YouMe Flutter
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ── Fichiers sensibles — NE JAMAIS COMMITER ──────────────────────────────
+android/key.properties          # Mots de passe keystore
+android/app/*.jks               # Keystore de release
+android/app/*.keystore          # Keystore de release
+*.keystore
+*.jks
+google-services.json            # Config Firebase avec project_id
+GoogleService-Info.plist        # Config Firebase iOS
+.env
+.env.*
+*.pem
+*.p12
+*.pfx
+
+# ── Flutter ───────────────────────────────────────────────────────────────
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+
+# ── Android ───────────────────────────────────────────────────────────────
+**/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+
+# ── iOS ───────────────────────────────────────────────────────────────────
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+**/ios/**/*sync/
+**/ios/**/.sconsign.dblite
+**/ios/**/.tags*
+**/ios/**/.vagrant/
+**/ios/**/DerivedData/
+**/ios/**/Icon?
+**/ios/**/Pods/
+**/ios/**/.symlinks/
+**/ios/**/profile
+**/ios/**/xcuserdata
+**/ios/.generated/
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/Flutter/flutter_assets/
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+
+# ── macOS ─────────────────────────────────────────────────────────────────
+**/macos/Flutter/GeneratedPluginRegistrant.swift
+**/macos/Flutter/ephemeral/
+
+# ── Web ───────────────────────────────────────────────────────────────────
+lib/generated_plugin_registrant.dart
+
+# ── IDE ───────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.iml
+*.suo
+*.sln
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# ── CI/CD artifacts ───────────────────────────────────────────────────────
+build/debug-info/
+build/debug-info-aab/
+
+# ── Logs ──────────────────────────────────────────────────────────────────
+*.log
+crash_log.txt
