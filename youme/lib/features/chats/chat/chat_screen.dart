@@ -1,10 +1,10 @@
 import 'dart:io';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/colors.dart';
-import '../../../core/widgets/user_avatar.dart';
 import '../../../core/widgets/wood_app_bar.dart';
 import '../../../core/widgets/chat_bubble.dart';
 import '../../../core/services/supabase_service.dart';
@@ -27,7 +27,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   List<MessageModel> _messages = [];
   bool _isLoading = true;
   bool _isSending = false;
-  bool _isRecording = false;
   bool _showScrollToBottom = false;
   late AnimationController _sendBtnCtrl;
 
@@ -372,9 +371,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                           msg.senderId == SupabaseService.currentUserId;
                       return ChatBubble(
                         message: msg,
-                        isMe: isMe,
-                        sharedKey: _sharedKey,
-                        onLongPress: (emoji) =>
+                        isSentByMe: isMe,
+                        onReact: (emoji) =>
                             _reactToMessage(msg.id, emoji),
                       );
                     },

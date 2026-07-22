@@ -250,7 +250,7 @@ class _InvitationsScreenState extends State<InvitationsScreen>
                 Row(
                   children: [
                     UserAvatar(
-                      avatarUrl: item.user?.avatarUrl,
+                      imageUrl: item.user?.avatarUrl,
                       displayName: item.user?.displayName,
                       isOnline: item.user?.isOnline ?? false,
                       size: 50,

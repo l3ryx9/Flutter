@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import '../../core/widgets/wood_bottom_nav.dart';
 import '../../core/widgets/tropical_background.dart';
-import '../../core/router/app_router.dart';
 import '../chats/conversation_list/conversation_list_screen.dart';
 import '../contacts/contacts/contacts_screen.dart';
 import '../ai/search/ai_search_screen.dart';

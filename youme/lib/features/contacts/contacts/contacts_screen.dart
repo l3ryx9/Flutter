@@ -4,7 +4,6 @@ import '../../../core/theme/colors.dart';
 import '../../../core/widgets/user_avatar.dart';
 import '../../../core/widgets/wood_card.dart';
 import '../../../core/widgets/wood_text_field.dart';
-import '../../../core/widgets/tropical_background.dart';
 import '../../../core/services/supabase_service.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../models/contact_model.dart';
@@ -324,7 +323,7 @@ class _ContactTile extends StatelessWidget {
       child: Row(
         children: [
           UserAvatar(
-            avatarUrl: profile?.avatarUrl,
+            imageUrl: profile?.avatarUrl,
             displayName: profile?.displayName,
             isOnline: profile?.isOnline ?? false,
             size: 52,
@@ -398,7 +397,7 @@ class _SearchResultTile extends StatelessWidget {
       child: Row(
         children: [
           UserAvatar(
-            avatarUrl: user.avatarUrl,
+            imageUrl: user.avatarUrl,
             displayName: user.displayName,
             isOnline: user.isOnline,
             size: 48,

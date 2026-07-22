@@ -15,9 +15,7 @@ class ConversationAnalysisScreen extends StatefulWidget {
 class _ConversationAnalysisScreenState extends State<ConversationAnalysisScreen> {
   DailySummary? _summary;
   PsychologicalProfile? _myProfile;
-  PsychologicalProfile? _partnerProfile;
   bool _isLoading = true;
-  List<String> _highlightedFacts = [];
 
   @override
   void initState() { super.initState(); _load(); }
@@ -44,8 +42,8 @@ class _ConversationAnalysisScreenState extends State<ConversationAnalysisScreen>
           .maybeSingle();
 
       setState(() {
-        if (summaryData != null) _summary = DailySummary.fromJson(summaryData as Map<String, dynamic>);
-        if (profileData != null) _myProfile = PsychologicalProfile.fromJson(profileData as Map<String, dynamic>);
+        if (summaryData != null) _summary = DailySummary.fromJson(summaryData);
+        if (profileData != null) _myProfile = PsychologicalProfile.fromJson(profileData);
         _isLoading = false;
       });
     } catch (_) { setState(() => _isLoading = false); }

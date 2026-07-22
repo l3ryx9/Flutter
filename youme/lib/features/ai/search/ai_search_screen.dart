@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/colors.dart';
-import '../../../core/widgets/wood_card.dart';
 import '../../../core/widgets/wood_text_field.dart';
 import '../../../core/services/supabase_service.dart';
 import '../../../core/constants/app_constants.dart';
@@ -398,6 +397,7 @@ class _ChatMessage {
 }
 
 // ─── Suggestion chips ───────────────────────────────────────────────────────
+// ignore: unused_element
 class _SuggestionChip extends StatelessWidget {
   final String label;
   final VoidCallback onTap;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:io';
 import '../../../core/theme/colors.dart';
 import '../../../core/widgets/wood_app_bar.dart';
@@ -63,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           .select()
           .eq('id', userId)
           .single();
-      final profile = UserModel.fromJson(data as Map<String, dynamic>);
+      final profile = UserModel.fromJson(data);
       setState(() {
         _profile = profile;
         _nameCtrl.text = profile.displayName ?? '';
@@ -216,7 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     )
                   : UserAvatar(
-                      avatarUrl: _profile?.avatarUrl,
+                      imageUrl: _profile?.avatarUrl,
                       displayName: _profile?.displayName,
                       isOnline: true,
                       size: 110,

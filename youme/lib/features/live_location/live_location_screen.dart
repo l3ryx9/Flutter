@@ -97,7 +97,7 @@ class _LiveLocationScreenState extends State<LiveLocationScreen>
           .neq('user_id', SupabaseService.currentUserId ?? '')
           .maybeSingle();
       if (data != null && mounted) {
-        setState(() => _partnerLocation = data as Map<String, dynamic>);
+        setState(() => _partnerLocation = data);
         _updateMarkers();
       }
     } catch (_) {}
