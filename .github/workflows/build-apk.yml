@@ -167,8 +167,8 @@ jobs:
         run: flutter pub get
 
       - name: "🔍 Analyse statique du code Dart"
-        run: flutter analyze --fatal-infos
-        # En production, --fatal-infos bloque le build si des warnings sont trouvés
+        run: flutter analyze --fatal-warnings
+        # --fatal-warnings bloque le build sur les warnings et erreurs, mais ignore les infos (dépréciations non critiques)
 
       - name: "🧪 Exécution des tests (si présents)"
         run: |

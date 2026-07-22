@@ -49,17 +49,4 @@ class CertificatePinning {
     return client;
   }
 
-  /// Vérifie qu'un certificat correspond aux hashes épinglés.
-  /// Retourne false (= reject) si le certificat n'est pas dans la liste.
-  static bool _validateCertificate(X509Certificate cert, String host) {
-    if (_pinnedHashes.isEmpty) return true; // Pinning non configuré
-
-    // Note: Dart's X509Certificate ne fournit pas directement le SPKI hash.
-    // Pour un pinning complet, utiliser un package natif ou flutter_ssl_pinning_plugin.
-    // Cette vérification de base valide l'issuer et la date de validité.
-    final now = DateTime.now();
-    if (cert.endValidity.isBefore(now)) return false; // Certificat expiré
-
-    return true; // Laisser la validation TLS standard gérer le reste
-  }
 }

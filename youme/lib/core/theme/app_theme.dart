@@ -8,7 +8,6 @@ class AppTheme {
   static ThemeData get darkTheme => _buildTheme(Brightness.dark);
 
   static ThemeData _buildTheme(Brightness brightness) {
-    final isDark = brightness == Brightness.dark;
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
@@ -83,7 +82,7 @@ class AppTheme {
         elevation: 0,
         type: BottomNavigationBarType.fixed,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.woodMedium,
         elevation: 12,
         shadowColor: AppColors.shadowDark,
@@ -105,7 +104,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         behavior: SnackBarBehavior.floating,
       ),
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         backgroundColor: AppColors.woodMedium,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         titleTextStyle: const TextStyle(

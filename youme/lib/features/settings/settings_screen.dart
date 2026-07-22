@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/widgets/wood_app_bar.dart';
 import '../../../core/widgets/wood_card.dart';
-import '../bloc/settings_bloc.dart';
+import 'bloc/settings_bloc.dart';
 import '../../auth/bloc/auth_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -449,8 +449,8 @@ class _SwitchTile extends StatelessWidget {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: color,
-            activeTrackColor: color.withOpacity(0.3),
+            activeThumbColor: color,
+            activeTrackColor: color.withValues(alpha: 0.3),
           ),
         ],
       );
