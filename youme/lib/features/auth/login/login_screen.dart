@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             gradient: const RadialGradient(colors: [AppColors.goldLight, AppColors.goldPrimary, AppColors.goldDark]),
-                            boxShadow: [BoxShadow(color: AppColors.glowGold.withOpacity(0.6), blurRadius: 30, spreadRadius: 4)],
+                            boxShadow: [BoxShadow(color: AppColors.glowGold.withValues(alpha: 0.6), blurRadius: 30, spreadRadius: 4)],
                           ),
                           child: const Center(child: Text('💑', style: TextStyle(fontSize: 48))),
                         ),
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           shadows: [Shadow(color: Colors.black54, blurRadius: 8, offset: Offset(0, 3))])),
                       const SizedBox(height: 8),
                       Text('Votre espace à deux', textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: 'Lato', fontSize: 14, color: AppColors.textPrimary.withOpacity(0.7), letterSpacing: 1.5)),
+                        style: TextStyle(fontFamily: 'Lato', fontSize: 14, color: AppColors.textPrimary.withValues(alpha: 0.7), letterSpacing: 1.5)),
                       const SizedBox(height: 48),
                       // Card
                       Container(
@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           borderRadius: BorderRadius.circular(24),
                           gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
                             colors: [Color(0xBB5C3317), Color(0xBB3D1F0B)]),
-                          border: Border.all(color: AppColors.goldBorder.withOpacity(0.5), width: 1),
+                          border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.5), width: 1),
                           boxShadow: [const BoxShadow(color: Colors.black45, blurRadius: 20, offset: Offset(0, 8))],
                         ),
                         child: Form(
@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                               ),
                               const SizedBox(height: 20),
                               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                Text('Pas encore de compte ?', style: TextStyle(color: AppColors.textPrimary.withOpacity(0.7), fontSize: 13)),
+                                Text('Pas encore de compte ?', style: TextStyle(color: AppColors.textPrimary.withValues(alpha: 0.7), fontSize: 13)),
                                 TextButton(
                                   onPressed: () => context.push(AppRoutes.register),
                                   child: const Text("S'inscrire", style: TextStyle(color: AppColors.goldLight, fontWeight: FontWeight.bold, fontSize: 13)),

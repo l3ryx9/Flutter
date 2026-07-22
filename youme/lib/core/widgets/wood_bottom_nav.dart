@@ -27,10 +27,10 @@ class WoodBottomNav extends StatelessWidget {
         ),
         boxShadow: [
           const BoxShadow(color: Colors.black54, blurRadius: 24, offset: Offset(0, 8), spreadRadius: 2),
-          BoxShadow(color: AppColors.glowGold.withOpacity(0.25), blurRadius: 30, offset: const Offset(0, 4)),
+          BoxShadow(color: AppColors.glowGold.withValues(alpha: 0.25), blurRadius: 30, offset: const Offset(0, 4)),
           const BoxShadow(color: Color(0x22FFFFFF), blurRadius: 2, offset: Offset(0, -1)),
         ],
-        border: Border.all(color: AppColors.goldBorder.withOpacity(0.6), width: 1.5),
+        border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.6), width: 1.5),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(31),
@@ -42,7 +42,7 @@ class WoodBottomNav extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter, end: Alignment.bottomCenter,
-                    colors: [Colors.white.withOpacity(0.12), Colors.transparent],
+                    colors: [Colors.white.withValues(alpha: 0.12), Colors.transparent],
                   ),
                 ),
               ),
@@ -70,7 +70,7 @@ class WoodBottomNav extends StatelessWidget {
                                 colors: [AppColors.goldLight, AppColors.goldPrimary, AppColors.goldDark],
                               ),
                               boxShadow: [
-                                BoxShadow(color: AppColors.glowGold.withOpacity(0.6), blurRadius: 16, spreadRadius: 2),
+                                BoxShadow(color: AppColors.glowGold.withValues(alpha: 0.6), blurRadius: 16, spreadRadius: 2),
                                 const BoxShadow(color: Colors.black45, blurRadius: 8, offset: Offset(0, 4)),
                               ],
                             ) : null,

@@ -111,7 +111,7 @@ class _ConversationAnalysisScreenState extends State<ConversationAnalysisScreen>
           borderRadius: BorderRadius.circular(8),
           child: LinearProgressIndicator(
             value: score, minHeight: 12, color: scoreColor,
-            backgroundColor: AppColors.woodDark.withOpacity(0.4),
+            backgroundColor: AppColors.woodDark.withValues(alpha: 0.4),
           ),
         ),
         const SizedBox(height: 8),
@@ -135,8 +135,8 @@ class _ConversationAnalysisScreenState extends State<ConversationAnalysisScreen>
           const SizedBox(height: 6),
           Wrap(spacing: 6, runSpacing: 6, children: profile.traits.map((t) =>
             Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.aiPurple.withOpacity(0.15),
-                border: Border.all(color: AppColors.aiPurple.withOpacity(0.4))),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.aiPurple.withValues(alpha: 0.15),
+                border: Border.all(color: AppColors.aiPurple.withValues(alpha: 0.4))),
               child: Text(t, style: const TextStyle(color: AppColors.aiPurple, fontSize: 11)))
           ).toList()),
           const SizedBox(height: 12),
@@ -161,7 +161,7 @@ class _ConversationAnalysisScreenState extends State<ConversationAnalysisScreen>
         if (profile.possibleAvoidance) ...[
           const SizedBox(height: 8),
           Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-            color: AppColors.warning.withOpacity(0.15), border: Border.all(color: AppColors.warning.withOpacity(0.4))),
+            color: AppColors.warning.withValues(alpha: 0.15), border: Border.all(color: AppColors.warning.withValues(alpha: 0.4))),
             child: const Row(children: [
               Icon(Icons.warning_amber, color: AppColors.warning, size: 18),
               SizedBox(width: 8),

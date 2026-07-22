@@ -49,7 +49,7 @@ class _RelationshipFlagsScreenState extends State<RelationshipFlagsScreen> with 
           Padding(padding: const EdgeInsets.only(right: 8),
             child: Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.woodSurface,
-                border: Border.all(color: AppColors.goldBorder.withOpacity(0.5))),
+                border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.5))),
               child: Text('${_greenFlags.length} ✅ · ${_redFlags.length} 🚩',
                 style: const TextStyle(fontSize: 12, color: AppColors.textPrimary, fontWeight: FontWeight.bold)))),
         ],
@@ -59,7 +59,7 @@ class _RelationshipFlagsScreenState extends State<RelationshipFlagsScreen> with 
           margin: const EdgeInsets.all(16),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(14),
             gradient: const LinearGradient(colors: [AppColors.woodMedium, AppColors.woodDark]),
-            border: Border.all(color: AppColors.goldBorder.withOpacity(0.4))),
+            border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.4))),
           child: TabBar(
             controller: _tabCtrl,
             indicator: BoxDecoration(borderRadius: BorderRadius.circular(12), gradient: const LinearGradient(colors: [AppColors.goldLight, AppColors.goldDark])),
@@ -85,8 +85,8 @@ class _RelationshipFlagsScreenState extends State<RelationshipFlagsScreen> with 
         Container(
           margin: const EdgeInsets.all(16),
           padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.info.withOpacity(0.1),
-            border: Border.all(color: AppColors.info.withOpacity(0.3))),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.info.withValues(alpha: 0.1),
+            border: Border.all(color: AppColors.info.withValues(alpha: 0.3))),
           child: const Row(children: [
             Icon(Icons.info_outline, color: AppColors.info, size: 16),
             SizedBox(width: 8),
@@ -160,15 +160,15 @@ class _FlagCard extends StatelessWidget {
           const SizedBox(height: 10),
           if (flag.messageQuote != null) ...[
             Container(padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: _color.withOpacity(0.1),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: _color.withValues(alpha: 0.1),
                 border: Border(left: BorderSide(color: _color, width: 3))),
               child: Text('"${flag.messageQuote}"', style: TextStyle(color: _color, fontSize: 12, fontStyle: FontStyle.italic))),
             const SizedBox(height: 10),
           ],
           Row(children: [
             Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: _severityColor.withOpacity(0.15),
-                border: Border.all(color: _severityColor.withOpacity(0.4))),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: _severityColor.withValues(alpha: 0.15),
+                border: Border.all(color: _severityColor.withValues(alpha: 0.4))),
               child: Text(_severityLabel, style: TextStyle(color: _severityColor, fontSize: 11, fontWeight: FontWeight.bold))),
             const Spacer(),
             Text(_formatDate(flag.detectedAt), style: const TextStyle(fontSize: 11, color: AppColors.textMuted)),

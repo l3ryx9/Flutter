@@ -235,7 +235,7 @@ class _ContactsScreenState extends State<ContactsScreen>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.person_search, color: AppColors.goldLight.withOpacity(0.4), size: 64),
+          Icon(Icons.person_search, color: AppColors.goldLight.withValues(alpha: 0.4), size: 64),
           const SizedBox(height: 12),
           Text(
             'Aucun résultat',
@@ -255,7 +255,7 @@ class _ContactsScreenState extends State<ContactsScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.people_outline, color: AppColors.goldLight.withOpacity(0.35), size: 80),
+            Icon(Icons.people_outline, color: AppColors.goldLight.withValues(alpha: 0.35), size: 80),
             const SizedBox(height: 16),
             const Text(
               'Aucun contact encore',
@@ -359,7 +359,7 @@ class _ContactTile extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                    color: AppColors.glowGold.withOpacity(0.4),
+                    color: AppColors.glowGold.withValues(alpha: 0.4),
                     blurRadius: 8)
               ],
             ),
@@ -428,8 +428,8 @@ class _SearchResultTile extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.turquoise.withOpacity(0.2),
-                border: Border.all(color: AppColors.turquoise.withOpacity(0.6)),
+                color: AppColors.turquoise.withValues(alpha: 0.2),
+                border: Border.all(color: AppColors.turquoise.withValues(alpha: 0.6)),
               ),
               child: isSending
                   ? const SizedBox(
@@ -465,7 +465,7 @@ class _IconButton extends StatelessWidget {
           gradient: const RadialGradient(
             colors: [AppColors.woodLight, AppColors.woodMedium, AppColors.woodDark],
           ),
-          border: Border.all(color: AppColors.goldBorder.withOpacity(0.7), width: 1.5),
+          border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.7), width: 1.5),
           boxShadow: const [
             BoxShadow(color: Colors.black38, blurRadius: 8, offset: Offset(0, 3)),
           ],

@@ -181,7 +181,7 @@ class _InvitationsScreenState extends State<InvitationsScreen>
         gradient: const LinearGradient(
           colors: [Color(0xFF5C3317), Color(0xFF3D1F0B)],
         ),
-        border: Border.all(color: AppColors.goldBorder.withOpacity(0.4)),
+        border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.4)),
       ),
       child: Row(
         children: [
@@ -206,7 +206,7 @@ class _InvitationsScreenState extends State<InvitationsScreen>
           children: [
             Icon(
               received ? Icons.inbox_outlined : Icons.outbox_outlined,
-              color: AppColors.goldLight.withOpacity(0.35),
+              color: AppColors.goldLight.withValues(alpha: 0.35),
               size: 70,
             ),
             const SizedBox(height: 16),
@@ -277,7 +277,7 @@ class _InvitationsScreenState extends State<InvitationsScreen>
                           Text(
                             _formatDate(item.createdAt),
                             style: TextStyle(
-                                color: AppColors.textMuted.withOpacity(0.7), fontSize: 11),
+                                color: AppColors.textMuted.withValues(alpha: 0.7), fontSize: 11),
                           ),
                         ],
                       ),
@@ -314,9 +314,9 @@ class _InvitationsScreenState extends State<InvitationsScreen>
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: AppColors.warning.withOpacity(0.15),
+                          color: AppColors.warning.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.warning.withOpacity(0.4)),
+                          border: Border.all(color: AppColors.warning.withValues(alpha: 0.4)),
                         ),
                         child: Text('En attente',
                             style: TextStyle(color: AppColors.warning, fontSize: 12)),
@@ -327,9 +327,9 @@ class _InvitationsScreenState extends State<InvitationsScreen>
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                           decoration: BoxDecoration(
-                            color: AppColors.error.withOpacity(0.15),
+                            color: AppColors.error.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.error.withOpacity(0.4)),
+                            border: Border.all(color: AppColors.error.withValues(alpha: 0.4)),
                           ),
                           child: const Text('Annuler',
                               style: TextStyle(color: AppColors.error, fontSize: 13)),
@@ -385,7 +385,7 @@ class _TabButton extends StatelessWidget {
                     colors: [AppColors.goldPrimary, AppColors.goldDark])
                 : null,
             boxShadow: selected
-                ? [BoxShadow(color: AppColors.glowGold.withOpacity(0.4), blurRadius: 8)]
+                ? [BoxShadow(color: AppColors.glowGold.withValues(alpha: 0.4), blurRadius: 8)]
                 : null,
           ),
           child: Text(
@@ -422,9 +422,9 @@ class _ActionBtn extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.15),
+          color: color.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withOpacity(0.5)),
+          border: Border.all(color: color.withValues(alpha: 0.5)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

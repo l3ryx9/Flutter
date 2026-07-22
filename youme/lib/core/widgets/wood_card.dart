@@ -43,13 +43,13 @@ class WoodCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
               blurRadius: elevation,
               offset: Offset(0, elevation / 2),
               spreadRadius: 1,
             ),
             BoxShadow(
-              color: AppColors.glowGold.withOpacity(0.2),
+              color: AppColors.glowGold.withValues(alpha: 0.2),
               blurRadius: 20,
               offset: const Offset(0, 0),
               spreadRadius: -2,
@@ -62,7 +62,7 @@ class WoodCard extends StatelessWidget {
             ),
           ],
           border: showGoldBorder
-              ? Border.all(color: AppColors.goldBorder.withOpacity(0.6), width: 1)
+              ? Border.all(color: AppColors.goldBorder.withValues(alpha: 0.6), width: 1)
               : null,
         ),
         child: ClipRRect(
@@ -79,7 +79,7 @@ class WoodCard extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.white.withOpacity(0.1),
+                        Colors.white.withValues(alpha: 0.1),
                         Colors.transparent,
                       ],
                     ),

@@ -50,8 +50,8 @@ class _AiInsightsScreenState extends State<AiInsightsScreen> with SingleTickerPr
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: Container(width: 36, height: 36,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.aiPurple.withOpacity(0.2),
-              border: Border.all(color: AppColors.aiPurple.withOpacity(0.6))),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.aiPurple.withValues(alpha: 0.2),
+              border: Border.all(color: AppColors.aiPurple.withValues(alpha: 0.6))),
             child: const Icon(Icons.psychology, color: AppColors.aiPurple, size: 20)),
         ),
       ]),
@@ -84,7 +84,7 @@ class _AiInsightsScreenState extends State<AiInsightsScreen> with SingleTickerPr
       const Text('Aucun insight disponible', style: TextStyle(fontFamily: 'Playfair', fontSize: 20, color: AppColors.textPrimary)),
       const SizedBox(height: 8),
       Text('L\'IA analysera vos messages au fil de la conversation.', textAlign: TextAlign.center,
-        style: TextStyle(color: AppColors.textPrimary.withOpacity(0.6), fontSize: 13)),
+        style: TextStyle(color: AppColors.textPrimary.withValues(alpha: 0.6), fontSize: 13)),
     ]));
   }
 }
@@ -143,14 +143,14 @@ class _EmotionBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: _color.withOpacity(0.2),
-      border: Border.all(color: _color.withOpacity(0.6))),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: _color.withValues(alpha: 0.2),
+      border: Border.all(color: _color.withValues(alpha: 0.6))),
     child: Row(mainAxisSize: MainAxisSize.min, children: [
       Container(width: 8, height: 8, decoration: BoxDecoration(shape: BoxShape.circle, color: _color)),
       const SizedBox(width: 6),
       Text(emotion, style: TextStyle(color: _color, fontSize: 12, fontWeight: FontWeight.bold)),
       const SizedBox(width: 4),
-      Text('${(score * 100).toInt()}%', style: TextStyle(color: _color.withOpacity(0.7), fontSize: 11)),
+      Text('${(score * 100).toInt()}%', style: TextStyle(color: _color.withValues(alpha: 0.7), fontSize: 11)),
     ]),
   );
 }
@@ -161,8 +161,8 @@ class _Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: color.withOpacity(0.15),
-      border: Border.all(color: color.withOpacity(0.4))),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: color.withValues(alpha: 0.15),
+      border: Border.all(color: color.withValues(alpha: 0.4))),
     child: Text(label, style: TextStyle(color: color, fontSize: 11)),
   );
 }

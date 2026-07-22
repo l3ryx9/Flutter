@@ -103,7 +103,7 @@ class _ConversationListScreenState extends State<ConversationListScreen> with Si
         Container(
           decoration: BoxDecoration(shape: BoxShape.circle,
             gradient: const RadialGradient(colors: [AppColors.woodLight, AppColors.woodMedium]),
-            border: Border.all(color: AppColors.goldBorder.withOpacity(0.7), width: 1.5),
+            border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.7), width: 1.5),
             boxShadow: [const BoxShadow(color: Colors.black38, blurRadius: 8, offset: Offset(0, 3))]),
           child: IconButton(icon: const Icon(Icons.search, color: AppColors.goldLight, size: 22), onPressed: () {}),
         ),
@@ -118,7 +118,7 @@ class _ConversationListScreenState extends State<ConversationListScreen> with Si
         const SizedBox(height: 16),
         const Text('Aucune conversation', style: TextStyle(fontFamily: 'Playfair', fontSize: 20, color: AppColors.textPrimary)),
         const SizedBox(height: 8),
-        Text('Ajoutez un contact pour commencer', style: TextStyle(color: AppColors.textPrimary.withOpacity(0.6), fontSize: 14)),
+        Text('Ajoutez un contact pour commencer', style: TextStyle(color: AppColors.textPrimary.withValues(alpha: 0.6), fontSize: 14)),
       ]),
     );
   }
@@ -131,7 +131,7 @@ class _ConversationListScreenState extends State<ConversationListScreen> with Si
         margin: const EdgeInsets.only(bottom: 12),
         height: 80,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
-          color: AppColors.woodMedium.withOpacity(0.3)),
+          color: AppColors.woodMedium.withValues(alpha: 0.3)),
       ),
     );
   }

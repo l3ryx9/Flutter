@@ -129,7 +129,7 @@ class _AiSearchScreenState extends State<AiSearchScreen>
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.aiPurple
-                          .withOpacity(0.3 + _pulseCtrl.value * 0.3),
+                          .withValues(alpha: 0.3 + _pulseCtrl.value * 0.3),
                       blurRadius: 16 + _pulseCtrl.value * 8,
                       spreadRadius: 2,
                     ),
@@ -155,7 +155,7 @@ class _AiSearchScreenState extends State<AiSearchScreen>
                 Text(
                   'Propulsé par Gemini',
                   style: TextStyle(
-                    color: AppColors.aiPurple.withOpacity(0.8),
+                    color: AppColors.aiPurple.withValues(alpha: 0.8),
                     fontSize: 12,
                   ),
                 ),
@@ -189,11 +189,11 @@ class _AiSearchScreenState extends State<AiSearchScreen>
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
                 colors: [
-                  AppColors.aiPurple.withOpacity(0.3),
-                  AppColors.aiBlue.withOpacity(0.2),
+                  AppColors.aiPurple.withValues(alpha: 0.3),
+                  AppColors.aiBlue.withValues(alpha: 0.2),
                 ],
               ),
-              border: Border.all(color: AppColors.aiPurple.withOpacity(0.4)),
+              border: Border.all(color: AppColors.aiPurple.withValues(alpha: 0.4)),
             ),
             child: AnimatedBuilder(
               animation: _pulseCtrl,
@@ -210,7 +210,7 @@ class _AiSearchScreenState extends State<AiSearchScreen>
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color:
-                            AppColors.aiPurple.withOpacity(0.6 + _pulseCtrl.value * 0.4),
+                            AppColors.aiPurple.withValues(alpha: 0.6 + _pulseCtrl.value * 0.4),
                       ),
                     ),
                   ),
@@ -231,8 +231,8 @@ class _AiSearchScreenState extends State<AiSearchScreen>
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            AppColors.skyTop.withOpacity(0),
-            AppColors.skyTop.withOpacity(0.95),
+            AppColors.skyTop.withValues(alpha: 0),
+            AppColors.skyTop.withValues(alpha: 0.95),
           ],
         ),
       ),
@@ -268,7 +268,7 @@ class _AiSearchScreenState extends State<AiSearchScreen>
                       ? null
                       : [
                           BoxShadow(
-                            color: AppColors.aiPurple.withOpacity(
+                            color: AppColors.aiPurple.withValues(alpha: 
                                 0.4 + _pulseCtrl.value * 0.3),
                             blurRadius: 12,
                             spreadRadius: 1,
@@ -321,27 +321,27 @@ class _MessageBubble extends StatelessWidget {
                 : message.isError
                     ? LinearGradient(
                         colors: [
-                          AppColors.error.withOpacity(0.3),
-                          AppColors.error.withOpacity(0.15),
+                          AppColors.error.withValues(alpha: 0.3),
+                          AppColors.error.withValues(alpha: 0.15),
                         ],
                       )
                     : LinearGradient(
                         colors: [
-                          AppColors.aiPurple.withOpacity(0.3),
-                          AppColors.aiBlue.withOpacity(0.2),
+                          AppColors.aiPurple.withValues(alpha: 0.3),
+                          AppColors.aiBlue.withValues(alpha: 0.2),
                         ],
                       ),
             border: Border.all(
               color: isUser
-                  ? AppColors.goldBorder.withOpacity(0.4)
+                  ? AppColors.goldBorder.withValues(alpha: 0.4)
                   : message.isError
-                      ? AppColors.error.withOpacity(0.4)
-                      : AppColors.aiPurple.withOpacity(0.4),
+                      ? AppColors.error.withValues(alpha: 0.4)
+                      : AppColors.aiPurple.withValues(alpha: 0.4),
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.25),
+                color: Colors.black.withValues(alpha: 0.25),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -414,11 +414,11 @@ class _SuggestionChip extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           gradient: LinearGradient(
             colors: [
-              AppColors.aiPurple.withOpacity(0.2),
-              AppColors.aiBlue.withOpacity(0.15),
+              AppColors.aiPurple.withValues(alpha: 0.2),
+              AppColors.aiBlue.withValues(alpha: 0.15),
             ],
           ),
-          border: Border.all(color: AppColors.aiPurple.withOpacity(0.4)),
+          border: Border.all(color: AppColors.aiPurple.withValues(alpha: 0.4)),
         ),
         child: Text(label,
             style: const TextStyle(color: AppColors.aiPurple, fontSize: 13)),

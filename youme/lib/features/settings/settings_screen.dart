@@ -113,10 +113,10 @@ class _SettingsScreenState extends State<SettingsScreen>
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
-                              color: AppColors.success.withOpacity(0.15),
+                              color: AppColors.success.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(8),
                               border:
-                                  Border.all(color: AppColors.success.withOpacity(0.5)),
+                                  Border.all(color: AppColors.success.withValues(alpha: 0.5)),
                             ),
                             child: const Text('Actif',
                                 style: TextStyle(
@@ -174,7 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                   Center(
                     child: Text(
                       'YouMe v1.0.0',
-                      style: TextStyle(color: AppColors.textMuted.withOpacity(0.5), fontSize: 12),
+                      style: TextStyle(color: AppColors.textMuted.withValues(alpha: 0.5), fontSize: 12),
                     ),
                   ),
                 ],
@@ -212,7 +212,7 @@ class _SettingsScreenState extends State<SettingsScreen>
       child: Text(
         label.toUpperCase(),
         style: TextStyle(
-          color: AppColors.goldPrimary.withOpacity(0.7),
+          color: AppColors.goldPrimary.withValues(alpha: 0.7),
           fontSize: 11,
           fontWeight: FontWeight.bold,
           letterSpacing: 1.5,
@@ -382,7 +382,7 @@ class _ThemeOption extends StatelessWidget {
               border: Border.all(
                 color: selected
                     ? AppColors.goldBorder
-                    : AppColors.woodHighlight.withOpacity(0.4),
+                    : AppColors.woodHighlight.withValues(alpha: 0.4),
               ),
             ),
             child: Column(
@@ -425,7 +425,7 @@ class _SwitchTile extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.15),
+              color: color.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 18),
@@ -477,7 +477,7 @@ class _NavTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.15),
+                color: color.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 18),
@@ -489,7 +489,7 @@ class _NavTile extends StatelessWidget {
                       color: color, fontSize: 15, fontWeight: FontWeight.w600)),
             ),
             trailing ??
-                Icon(Icons.chevron_right, color: color.withOpacity(0.6), size: 18),
+                Icon(Icons.chevron_right, color: color.withValues(alpha: 0.6), size: 18),
           ],
         ),
       );
@@ -522,7 +522,7 @@ class _DialogField extends StatelessWidget {
           fillColor: AppColors.woodDark,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.woodHighlight.withOpacity(0.4)),
+            borderSide: BorderSide(color: AppColors.woodHighlight.withValues(alpha: 0.4)),
           ),
         ),
       );

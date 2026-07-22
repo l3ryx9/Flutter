@@ -51,18 +51,18 @@ class ChatBubble extends StatelessWidget {
                         : AppColors.bubbleReceivedGradient,
                     boxShadow: [
                       BoxShadow(
-                        color: (isSentByMe ? AppColors.woodDark : AppColors.oceanBlue).withOpacity(0.5),
+                        color: (isSentByMe ? AppColors.woodDark : AppColors.oceanBlue).withValues(alpha: 0.5),
                         blurRadius: 12, offset: const Offset(0, 4),
                       ),
                       BoxShadow(
-                        color: Colors.white.withOpacity(0.08),
+                        color: Colors.white.withValues(alpha: 0.08),
                         blurRadius: 2, offset: const Offset(0, -1),
                       ),
                     ],
                     border: Border.all(
                       color: isSentByMe
-                          ? AppColors.goldBorder.withOpacity(0.3)
-                          : AppColors.turquoise.withOpacity(0.2),
+                          ? AppColors.goldBorder.withValues(alpha: 0.3)
+                          : AppColors.turquoise.withValues(alpha: 0.2),
                       width: 1,
                     ),
                   ),
@@ -76,7 +76,7 @@ class ChatBubble extends StatelessWidget {
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                             gradient: LinearGradient(
                               begin: Alignment.topCenter, end: Alignment.bottomCenter,
-                              colors: [Colors.white.withOpacity(0.15), Colors.transparent],
+                              colors: [Colors.white.withValues(alpha: 0.15), Colors.transparent],
                             ),
                           ),
                         ),
@@ -137,7 +137,7 @@ class ChatBubble extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(child: LinearProgressIndicator(
               value: 0, color: AppColors.goldPrimary,
-              backgroundColor: AppColors.woodDark.withOpacity(0.3),
+              backgroundColor: AppColors.woodDark.withValues(alpha: 0.3),
             )),
             const SizedBox(width: 8),
             Text(message.voiceDuration ?? '0:00',
@@ -171,7 +171,7 @@ class ChatBubble extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
           color: AppColors.woodSurface, borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.goldBorder.withOpacity(0.4)),
+          border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.4)),
         ),
         child: Text('${e.key} ${e.value}', style: const TextStyle(fontSize: 12)),
       )).toList(),

@@ -90,7 +90,7 @@ class _WoodButtonState extends State<WoodButton>
                     spreadRadius: 1,
                   ),
                   BoxShadow(
-                    color: AppColors.glowGold.withOpacity(0.3 + _glowAnim.value * 0.3),
+                    color: AppColors.glowGold.withValues(alpha: 0.3 + _glowAnim.value * 0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 2),
                     spreadRadius: 0,
@@ -103,7 +103,7 @@ class _WoodButtonState extends State<WoodButton>
                   ),
                 ],
                 border: Border.all(
-                  color: AppColors.goldBorder.withOpacity(0.8),
+                  color: AppColors.goldBorder.withValues(alpha: 0.8),
                   width: 1.5,
                 ),
               ),
@@ -132,7 +132,7 @@ class _WoodButtonState extends State<WoodButton>
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.white.withOpacity(0.15),
+                            Colors.white.withValues(alpha: 0.15),
                             Colors.transparent,
                           ],
                         ),

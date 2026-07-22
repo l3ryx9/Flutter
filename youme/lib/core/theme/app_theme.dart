@@ -73,7 +73,7 @@ class AppTheme {
           borderSide: const BorderSide(color: AppColors.goldPrimary, width: 2),
         ),
         labelStyle: const TextStyle(color: AppColors.woodMedium),
-        hintStyle: TextStyle(color: AppColors.woodMedium.withOpacity(0.6)),
+        hintStyle: TextStyle(color: AppColors.woodMedium.withValues(alpha: 0.6)),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.transparent,
@@ -90,7 +90,7 @@ class AppTheme {
       ),
       iconTheme: const IconThemeData(color: AppColors.goldLight, size: 24),
       dividerTheme: DividerThemeData(
-        color: AppColors.woodHighlight.withOpacity(0.3),
+        color: AppColors.woodHighlight.withValues(alpha: 0.3),
         thickness: 1,
       ),
       chipTheme: ChipThemeData(
