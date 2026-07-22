@@ -84,9 +84,23 @@ function runBuild(attempt) {
     maxBuffer: 64 * 1024 * 1024,
     env: process.env,
   });
-  const output = redact(`${res.stdout || ''}\n${res.stderr || ''}`);
+  let output = redact(`${res.stdout || ''}\n${res.stderr || ''}`);
+  // ── Diagnostic : erreur de spawn (ex: flutter introuvable) et code de sortie ──
+  if (res.error) {
+    output += `\n[retryBuild] ERREUR DE SPAWN : ${res.error.code || ''} ${res.error.message}`;
+  }
+  output += `\n[retryBuild] exit status: ${res.status} | signal: ${res.signal || 'aucun'}`;
   fs.writeFileSync(path.join(LOG_DIR, `attempt-${attempt}.log`), output);
   return { ok: res.status === 0, output };
+}
+
+// Affiche la fin du log de build dans la console GitHub Actions,
+// pour que la vraie erreur soit visible même si Gemini est indisponible.
+function printTail(output, lines = 60) {
+  const tail = output.split('\n').slice(-lines).join('\n');
+  console.log('\n──── Fin des logs du build (dernières lignes) ────');
+  console.log(tail);
+  console.log('──────────────────────────────────────────────────');
 }
 
 function isPathAllowed(p) {
@@ -198,6 +212,7 @@ function applyFix(fix, attempt) {
     }
 
     console.log(`\n❌ Build échoué (tentative ${attempt}).`);
+    printTail(output);
 
     if (!GEMINI_API_KEY) {
       console.log('ℹ️  GEMINI_API_KEY absent — auto-correction IA désactivée.');
