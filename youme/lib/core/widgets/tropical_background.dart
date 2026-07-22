@@ -97,7 +97,6 @@ class _PalmPainter extends CustomPainter {
     final leafPaint = Paint()..color = color.withOpacity(0.7)..style = PaintingStyle.fill;
     final top = Offset(size.width / 2, size.height * 0.2);
     for (var i = 0; i < 6; i++) {
-      final angle = (i * 60) * (3.14159 / 180);
       final end = Offset(top.dx + size.height * 0.3 * (i.isEven ? 1 : -0.8) * 0.6,
                          top.dy - size.height * 0.25 * 0.6);
       canvas.drawLine(top, end, leafPaint..strokeWidth = 3);

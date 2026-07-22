@@ -8,7 +8,6 @@ import '../../../core/widgets/tropical_background.dart';
 import '../../../core/services/supabase_service.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/utils/error_logger.dart';
-import '../../auth/bloc/auth_bloc.dart';
 
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({super.key});

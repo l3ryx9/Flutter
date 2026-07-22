@@ -167,3 +167,4 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return message;
   }
 }
+// end
