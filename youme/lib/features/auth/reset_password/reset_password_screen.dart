@@ -53,7 +53,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(24),
                       gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
                         colors: [Color(0xBB5C3317), Color(0xBB3D1F0B)]),
-                      border: Border.all(color: AppColors.goldBorder.withOpacity(0.5)),
+                      border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.5)),
                       boxShadow: [const BoxShadow(color: Colors.black45, blurRadius: 20, offset: Offset(0, 8))]),
                     child: Form(
                       key: _formKey,

@@ -1,10 +1,10 @@
 import 'dart:io';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/colors.dart';
-import '../../../core/widgets/user_avatar.dart';
 import '../../../core/widgets/wood_app_bar.dart';
 import '../../../core/widgets/chat_bubble.dart';
 import '../../../core/services/supabase_service.dart';
@@ -27,7 +27,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   List<MessageModel> _messages = [];
   bool _isLoading = true;
   bool _isSending = false;
-  bool _isRecording = false;
   bool _showScrollToBottom = false;
   late AnimationController _sendBtnCtrl;
 
@@ -324,7 +323,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            color: AppColors.warning.withOpacity(0.2),
+            color: AppColors.warning.withValues(alpha: 0.2),
             child: Row(children: [
               const Icon(Icons.lock_open, color: AppColors.warning, size: 14),
               const SizedBox(width: 6),
@@ -343,7 +342,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            color: AppColors.success.withOpacity(0.12),
+            color: AppColors.success.withValues(alpha: 0.12),
             child: Row(children: [
               const Icon(Icons.lock, color: AppColors.success, size: 13),
               const SizedBox(width: 6),
@@ -372,9 +371,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                           msg.senderId == SupabaseService.currentUserId;
                       return ChatBubble(
                         message: msg,
-                        isMe: isMe,
-                        sharedKey: _sharedKey,
-                        onLongPress: (emoji) =>
+                        isSentByMe: isMe,
+                        onReact: (emoji) =>
                             _reactToMessage(msg.id, emoji),
                       );
                     },
@@ -407,7 +405,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
         decoration: BoxDecoration(
           color: AppColors.woodMedium,
-          border: Border(top: BorderSide(color: AppColors.goldBorder.withOpacity(0.2))),
+          border: Border(top: BorderSide(color: AppColors.goldBorder.withValues(alpha: 0.2))),
         ),
         child: Row(children: [
           IconButton(
@@ -423,7 +421,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
               style: const TextStyle(color: AppColors.textPrimary, fontSize: 15),
               decoration: InputDecoration(
                 hintText: 'Message…',
-                hintStyle: TextStyle(color: AppColors.textMuted.withOpacity(0.6)),
+                hintStyle: TextStyle(color: AppColors.textMuted.withValues(alpha: 0.6)),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
                   borderSide: BorderSide.none,
@@ -450,7 +448,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                         colors: [AppColors.goldPrimary, AppColors.goldDark])
                     : null,
                 color: _textCtrl.text.isEmpty
-                    ? AppColors.woodHighlight.withOpacity(0.3)
+                    ? AppColors.woodHighlight.withValues(alpha: 0.3)
                     : null,
               ),
               child: _isSending
@@ -541,7 +539,7 @@ class _AttachOption extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: color.withOpacity(0.2),
+                  color: color.withValues(alpha: 0.2),
                   border: Border.all(color: color, width: 2)),
               child: Icon(icon, color: color, size: 28)),
           const SizedBox(height: 8),

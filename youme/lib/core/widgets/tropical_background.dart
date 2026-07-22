@@ -57,8 +57,8 @@ class TropicalBackground extends StatelessWidget {
         width: c.size, height: c.size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: AppColors.turquoise.withOpacity(c.opacity),
-          boxShadow: [BoxShadow(color: AppColors.turquoise.withOpacity(c.opacity * 2), blurRadius: c.size)],
+          color: AppColors.turquoise.withValues(alpha: c.opacity),
+          boxShadow: [BoxShadow(color: AppColors.turquoise.withValues(alpha: c.opacity * 2), blurRadius: c.size)],
         ),
       ),
     )).toList();
@@ -94,7 +94,7 @@ class _PalmPainter extends CustomPainter {
     // Trunk
     canvas.drawLine(Offset(size.width / 2, size.height), Offset(size.width / 2, size.height * 0.2), paint);
     // Leaves
-    final leafPaint = Paint()..color = color.withOpacity(0.7)..style = PaintingStyle.fill;
+    final leafPaint = Paint()..color = color.withValues(alpha: 0.7)..style = PaintingStyle.fill;
     final top = Offset(size.width / 2, size.height * 0.2);
     for (var i = 0; i < 6; i++) {
       final angle = (i * 60) * (3.14159 / 180);

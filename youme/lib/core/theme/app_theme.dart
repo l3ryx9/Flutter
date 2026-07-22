@@ -8,7 +8,7 @@ class AppTheme {
   static ThemeData get darkTheme => _buildTheme(Brightness.dark);
 
   static ThemeData _buildTheme(Brightness brightness) {
-    final isDark = brightness == Brightness.dark;
+    
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
@@ -74,7 +74,7 @@ class AppTheme {
           borderSide: const BorderSide(color: AppColors.goldPrimary, width: 2),
         ),
         labelStyle: const TextStyle(color: AppColors.woodMedium),
-        hintStyle: TextStyle(color: AppColors.woodMedium.withOpacity(0.6)),
+        hintStyle: TextStyle(color: AppColors.woodMedium.withValues(alpha: 0.6)),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.transparent,
@@ -83,7 +83,7 @@ class AppTheme {
         elevation: 0,
         type: BottomNavigationBarType.fixed,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.woodMedium,
         elevation: 12,
         shadowColor: AppColors.shadowDark,
@@ -91,7 +91,7 @@ class AppTheme {
       ),
       iconTheme: const IconThemeData(color: AppColors.goldLight, size: 24),
       dividerTheme: DividerThemeData(
-        color: AppColors.woodHighlight.withOpacity(0.3),
+        color: AppColors.woodHighlight.withValues(alpha: 0.3),
         thickness: 1,
       ),
       chipTheme: ChipThemeData(
@@ -105,7 +105,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         behavior: SnackBarBehavior.floating,
       ),
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         backgroundColor: AppColors.woodMedium,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         titleTextStyle: const TextStyle(

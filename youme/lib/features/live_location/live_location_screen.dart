@@ -197,9 +197,9 @@ class _LiveLocationScreenState extends State<LiveLocationScreen>
                       margin: const EdgeInsets.all(8),
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                       decoration: BoxDecoration(
-                        color: AppColors.success.withOpacity(0.2 + _pulseCtrl.value * 0.15),
+                        color: AppColors.success.withValues(alpha: 0.2 + _pulseCtrl.value * 0.15),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.success.withOpacity(0.6)),
+                        border: Border.all(color: AppColors.success.withValues(alpha: 0.6)),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -212,7 +212,7 @@ class _LiveLocationScreenState extends State<LiveLocationScreen>
                               color: AppColors.success,
                               boxShadow: [
                                 BoxShadow(
-                                    color: AppColors.success.withOpacity(0.6),
+                                    color: AppColors.success.withValues(alpha: 0.6),
                                     blurRadius: 4)
                               ],
                             ),
@@ -275,7 +275,7 @@ class _LiveLocationScreenState extends State<LiveLocationScreen>
                 gradient: const RadialGradient(
                   colors: [AppColors.woodLight, AppColors.woodDark],
                 ),
-                border: Border.all(color: AppColors.goldBorder.withOpacity(0.6), width: 1.5),
+                border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.6), width: 1.5),
                 boxShadow: const [
                   BoxShadow(color: Colors.black45, blurRadius: 10, offset: Offset(0, 4)),
                 ],
@@ -343,9 +343,9 @@ class _LiveLocationScreenState extends State<LiveLocationScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.success.withOpacity(0.1),
+        color: AppColors.success.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.success.withOpacity(0.35)),
+        border: Border.all(color: AppColors.success.withValues(alpha: 0.35)),
       ),
       child: Row(
         children: [
@@ -378,9 +378,9 @@ class _LiveLocationScreenState extends State<LiveLocationScreen>
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: AppColors.success.withOpacity(0.2),
+                color: AppColors.success.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppColors.success.withOpacity(0.5)),
+                border: Border.all(color: AppColors.success.withValues(alpha: 0.5)),
               ),
               child: const Text('Voir',
                   style: TextStyle(

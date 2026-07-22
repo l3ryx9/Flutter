@@ -32,8 +32,8 @@ class WoodAppBar extends StatelessWidget implements PreferredSizeWidget {
           colors: [Color(0xFF7A4A2A), Color(0xFF4A2510), Color(0xFF6B3D1E)],
         ),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.4), blurRadius: 12, offset: const Offset(0, 4)),
-          BoxShadow(color: AppColors.glowGold.withOpacity(0.15), blurRadius: 20, offset: const Offset(0, 2)),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.4), blurRadius: 12, offset: const Offset(0, 4)),
+          BoxShadow(color: AppColors.glowGold.withValues(alpha: 0.15), blurRadius: 20, offset: const Offset(0, 2)),
         ],
         border: const Border(bottom: BorderSide(color: AppColors.goldBorder, width: 1)),
       ),
@@ -91,10 +91,10 @@ class _CircularWoodButton extends StatelessWidget {
           gradient: const RadialGradient(
             colors: [AppColors.woodLight, AppColors.woodMedium, AppColors.woodDark],
           ),
-          border: Border.all(color: AppColors.goldBorder.withOpacity(0.7), width: 1.5),
+          border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.7), width: 1.5),
           boxShadow: [
             const BoxShadow(color: Colors.black38, blurRadius: 8, offset: Offset(0, 3)),
-            BoxShadow(color: AppColors.glowGold.withOpacity(0.2), blurRadius: 10),
+            BoxShadow(color: AppColors.glowGold.withValues(alpha: 0.2), blurRadius: 10),
           ],
         ),
         child: Icon(icon, color: AppColors.goldLight, size: 18),

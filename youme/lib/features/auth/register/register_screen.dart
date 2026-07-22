@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
                           borderRadius: BorderRadius.circular(24),
                           gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
                             colors: [Color(0xBB5C3317), Color(0xBB3D1F0B)]),
-                          border: Border.all(color: AppColors.goldBorder.withOpacity(0.5), width: 1),
+                          border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.5), width: 1),
                           boxShadow: [const BoxShadow(color: Colors.black45, blurRadius: 20, offset: Offset(0, 8))],
                         ),
                         child: Form(
@@ -181,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
                               ),
                               const SizedBox(height: 16),
                               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                Text('Déjà un compte ?', style: TextStyle(color: AppColors.textPrimary.withOpacity(0.7), fontSize: 13)),
+                                Text('Déjà un compte ?', style: TextStyle(color: AppColors.textPrimary.withValues(alpha: 0.7), fontSize: 13)),
                                 TextButton(onPressed: () => context.pop(),
                                   child: const Text('Se connecter', style: TextStyle(color: AppColors.goldLight, fontWeight: FontWeight.bold, fontSize: 13))),
                               ]),

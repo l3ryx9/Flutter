@@ -167,14 +167,14 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
           borderRadius: BorderRadius.circular(20),
           gradient: LinearGradient(
             colors: [
-              AppColors.error.withOpacity(0.3),
-              AppColors.error.withOpacity(0.15),
+              AppColors.error.withValues(alpha: 0.3),
+              AppColors.error.withValues(alpha: 0.15),
             ],
           ),
-          border: Border.all(color: AppColors.error.withOpacity(0.6), width: 1.5),
+          border: Border.all(color: AppColors.error.withValues(alpha: 0.6), width: 1.5),
           boxShadow: [
             BoxShadow(
-                color: AppColors.error.withOpacity(0.3),
+                color: AppColors.error.withValues(alpha: 0.3),
                 blurRadius: 20,
                 spreadRadius: 2)
           ],
@@ -197,7 +197,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
               'La suppression de votre compte est permanente. Toutes vos données seront effacées définitivement.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: AppColors.error.withOpacity(0.85),
+                  color: AppColors.error.withValues(alpha: 0.85),
                   fontSize: 14,
                   height: 1.5),
             ),
@@ -219,8 +219,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: AppColors.woodMedium.withOpacity(0.5),
-        border: Border.all(color: AppColors.woodHighlight.withOpacity(0.4)),
+        color: AppColors.woodMedium.withValues(alpha: 0.5),
+        border: Border.all(color: AppColors.woodHighlight.withValues(alpha: 0.4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,12 +236,12 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Row(
                   children: [
-                    Icon(item.icon, color: AppColors.error.withOpacity(0.7), size: 18),
+                    Icon(item.icon, color: AppColors.error.withValues(alpha: 0.7), size: 18),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(item.text,
                           style: TextStyle(
-                              color: AppColors.textPrimary.withOpacity(0.85),
+                              color: AppColors.textPrimary.withValues(alpha: 0.85),
                               fontSize: 14)),
                     ),
                   ],
@@ -260,7 +260,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
         gradient: const LinearGradient(
           colors: [Color(0xBB5C3317), Color(0xBB3D1F0B)],
         ),
-        border: Border.all(color: AppColors.goldBorder.withOpacity(0.4)),
+        border: Border.all(color: AppColors.goldBorder.withValues(alpha: 0.4)),
         boxShadow: const [BoxShadow(color: Colors.black45, blurRadius: 20, offset: Offset(0, 8))],
       ),
       child: Column(

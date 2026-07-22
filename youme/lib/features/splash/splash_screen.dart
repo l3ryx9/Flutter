@@ -92,10 +92,10 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                               colors: [AppColors.goldLight, AppColors.goldPrimary, AppColors.goldDark],
                             ),
                             boxShadow: [
-                              BoxShadow(color: AppColors.glowGold.withOpacity(0.8), blurRadius: 40, spreadRadius: 8),
+                              BoxShadow(color: AppColors.glowGold.withValues(alpha: 0.8), blurRadius: 40, spreadRadius: 8),
                               const BoxShadow(color: Colors.black45, blurRadius: 20, offset: Offset(0, 8)),
                             ],
-                            border: Border.all(color: Colors.white.withOpacity(0.3), width: 3),
+                            border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 3),
                           ),
                           child: const Center(
                             child: Text('💑', style: TextStyle(fontSize: 64)),
@@ -124,7 +124,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                             const SizedBox(height: 8),
                             Text('Votre espace à deux',
                               style: TextStyle(fontFamily: 'Lato', fontSize: 16,
-                                color: AppColors.textPrimary.withOpacity(0.8),
+                                color: AppColors.textPrimary.withValues(alpha: 0.8),
                                 letterSpacing: 2),
                             ),
                           ],
@@ -142,7 +142,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                         width: 40, height: 40,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: AppColors.goldPrimary.withOpacity(0.7),
+                          color: AppColors.goldPrimary.withValues(alpha: 0.7),
                         ),
                       ),
                     ),

@@ -235,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   border: Border.all(color: AppColors.woodDark, width: 2),
                   boxShadow: [
                     BoxShadow(
-                        color: AppColors.glowGold.withOpacity(0.5),
+                        color: AppColors.glowGold.withValues(alpha: 0.5),
                         blurRadius: 8)
                   ],
                 ),
@@ -265,9 +265,9 @@ class _ProfileScreenState extends State<ProfileScreen>
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
           decoration: BoxDecoration(
-            color: AppColors.onlineGreen.withOpacity(0.15),
+            color: AppColors.onlineGreen.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.onlineGreen.withOpacity(0.5)),
+            border: Border.all(color: AppColors.onlineGreen.withValues(alpha: 0.5)),
           ),
           child: const Row(
             mainAxisSize: MainAxisSize.min,
@@ -495,7 +495,7 @@ class _ActionItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.15),
+                color: color.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 18),
@@ -505,7 +505,7 @@ class _ActionItem extends StatelessWidget {
                 style: TextStyle(
                     color: color, fontSize: 15, fontWeight: FontWeight.w600)),
             const Spacer(),
-            Icon(Icons.chevron_right, color: color.withOpacity(0.6), size: 18),
+            Icon(Icons.chevron_right, color: color.withValues(alpha: 0.6), size: 18),
           ],
         ),
       );

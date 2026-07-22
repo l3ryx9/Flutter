@@ -83,7 +83,7 @@ class _WoodTextFieldState extends State<WoodTextField>
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: AppColors.glowGold.withOpacity(_focusBorderAnim.value * 0.4),
+                color: AppColors.glowGold.withValues(alpha: _focusBorderAnim.value * 0.4),
                 blurRadius: 16,
                 spreadRadius: 1,
               ),
@@ -142,7 +142,7 @@ class _WoodTextFieldState extends State<WoodTextField>
                 borderSide: const BorderSide(color: AppColors.error, width: 1.5),
               ),
               labelStyle: const TextStyle(color: AppColors.woodMedium, fontFamily: 'Lato'),
-              hintStyle: TextStyle(color: AppColors.woodMedium.withOpacity(0.5)),
+              hintStyle: TextStyle(color: AppColors.woodMedium.withValues(alpha: 0.5)),
               prefixIcon: widget.prefixIcon != null
                   ? Icon(widget.prefixIcon, color: AppColors.woodMedium, size: 20)
                   : null,
