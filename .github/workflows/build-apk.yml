@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════════
-# YouMe — Workflow GitHub Actions sécurisé
+# YouMe — Workflow GitHub Actions sécurisé + Auto-correction IA
 #
 # Ce workflow :
 #   ✅ Build en mode RELEASE uniquement (pas de debug APK publié)
@@ -12,6 +12,7 @@
 #   ✅ Arrêt automatique si une erreur de sécurité est détectée
 #   ✅ Clés/URL sensibles injectées via GitHub Secrets (jamais dans le code)
 #   ✅ Artefacts APK et split-debug-info conservés séparément
+#   🤖 Build avec retry + auto-correction IA (Gemini) via ci/retryBuild.js
 #
 # Secrets GitHub requis (Settings → Secrets and variables → Actions) :
 #   SUPABASE_URL         — URL du projet Supabase
@@ -21,6 +22,9 @@
 #   KEY_ALIAS            — Alias de la clé dans le keystore
 #   KEY_PASSWORD         — Mot de passe de la clé
 #   STORE_PASSWORD       — Mot de passe du keystore
+#   GEMINI_API_KEY       — Clé API Gemini (auto-correction IA du build)
+#
+# Fichier requis dans le dépôt : youme/ci/retryBuild.js
 # ═══════════════════════════════════════════════════════════════════════════
 
 name: "YouMe — Secure Release Build"
@@ -175,12 +179,13 @@ jobs:
           fi
 
   # ═══════════════════════════════════════════════════════════════════════
-  # JOB 3 — Build Release sécurisé (APK)
+  # JOB 3 — Build Release sécurisé (APK) avec auto-correction IA
   # ═══════════════════════════════════════════════════════════════════════
   build-apk:
-    name: "🏗️ Build APK Release"
+    name: "🏗️ Build APK Release (auto-correction IA)"
     runs-on: ubuntu-latest
     needs: [ security-scan, analyze ]
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: youme
@@ -196,6 +201,12 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+
+      # ── Node.js requis pour le script d'auto-correction IA ───────────
+      - name: "🟢 Installation de Node.js 20"
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: "🐦 Installation de Flutter (dernière version stable)"
         uses: subosito/flutter-action@v2
@@ -232,25 +243,17 @@ jobs:
       - name: "📦 Installation des dépendances Flutter"
         run: flutter pub get
 
-      # ── Build APK Release avec obfuscation ───────────────────────────
-      - name: "🏗️ Build APK Release (obfusqué)"
+      # ── Build APK Release + Retry automatique via IA ──────────────────
+      - name: "🏗️🤖 Build APK Release avec auto-correction IA"
         id: build-apk
         env:
+          BUILD_TARGET: apk
+          MAX_ATTEMPTS: '3'
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
-        run: |
-          flutter build apk --release \
-            --obfuscate \
-            --split-debug-info=build/debug-info \
-            --dart-define=SUPABASE_URL="$SUPABASE_URL" \
-            --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
-            --dart-define=GOOGLE_MAPS_KEY="$GOOGLE_MAPS_KEY"
-
-          APK_PATH="build/app/outputs/flutter-apk/app-release.apk"
-          echo "apk-path=$APK_PATH" >> "$GITHUB_OUTPUT"
-          echo "✅ APK Release généré : $APK_PATH"
-          ls -lh "$APK_PATH"
+        run: node ci/retryBuild.js
 
       # ── Nettoyage sécurisé du keystore (ne pas conserver en CI) ──────
       - name: "🧹 Nettoyage du keystore temporaire"
@@ -279,14 +282,45 @@ jobs:
           # Ces fichiers permettent de désober les crash reports — à conserver privés
           if-no-files-found: warn
 
+      # ── Upload logs en cas d'échec (tentatives + réponses IA) ─────────
+      - name: "📤 Upload logs d'échec"
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-failure-logs-${{ github.run_number }}
+          path: youme/ci/logs/
+          retention-days: 7
+
+      # ── Résumé du build (tentatives + corrections IA) ─────────────────
+      - name: "📊 Résumé du build"
+        if: always()
+        run: |
+          if [ -f ci/logs/build-summary.json ]; then
+            node -e "
+              const s = require('./ci/logs/build-summary.json');
+              const emoji = s.success ? '✅' : '❌';
+              console.log(\`## \${emoji} Build \${s.success ? 'réussi' : 'échoué'}\`);
+              console.log(\`- **Tentatives:** \${s.attempts}/\${s.maxAttempts}\`);
+              console.log(\`- **Durée totale:** \${s.totalDuration}s\`);
+              if (s.apkPath) console.log(\`- **APK:** \${s.apkPath}\`);
+              if (s.fixes && s.fixes.length > 0) {
+                console.log(\`\n### 🤖 Corrections IA appliquées (\${s.fixes.length})\`);
+                s.fixes.forEach((f, i) => console.log(\`\${i+1}. \${(f.explanation || '').slice(0, 120)}\`));
+              }
+            " >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️  Aucun résumé de build trouvé." >> $GITHUB_STEP_SUMMARY
+          fi
+
   # ═══════════════════════════════════════════════════════════════════════
-  # JOB 4 — Build App Bundle (AAB) optionnel
+  # JOB 4 — Build App Bundle (AAB) optionnel avec auto-correction IA
   # ═══════════════════════════════════════════════════════════════════════
   build-aab:
     name: "🏗️ Build App Bundle Release"
     runs-on: ubuntu-latest
     needs: [ security-scan, analyze ]
     if: github.event.inputs.build_aab == 'true' || github.ref == 'refs/heads/main'
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: youme
@@ -300,6 +334,11 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+
+      - name: "🟢 Installation de Node.js 20"
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: "🐦 Installation de Flutter (dernière version stable)"
         uses: subosito/flutter-action@v2
@@ -332,22 +371,16 @@ jobs:
       - name: "📦 Installation des dépendances Flutter"
         run: flutter pub get
 
-      # ── Build App Bundle avec obfuscation ────────────────────────────
-      - name: "🏗️ Build AAB Release (obfusqué)"
+      # ── Build App Bundle + Retry automatique via IA ──────────────────
+      - name: "🏗️🤖 Build AAB Release avec auto-correction IA"
         env:
+          BUILD_TARGET: appbundle
+          MAX_ATTEMPTS: '3'
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
-        run: |
-          flutter build appbundle --release \
-            --obfuscate \
-            --split-debug-info=build/debug-info-aab \
-            --dart-define=SUPABASE_URL="$SUPABASE_URL" \
-            --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
-            --dart-define=GOOGLE_MAPS_KEY="$GOOGLE_MAPS_KEY"
-
-          echo "✅ App Bundle généré."
-          ls -lh build/app/outputs/bundle/release/app-release.aab
+        run: node ci/retryBuild.js
 
       - name: "🧹 Nettoyage du keystore temporaire"
         if: always()
@@ -368,6 +401,14 @@ jobs:
           name: youme-debug-info-aab-${{ github.sha }}
           path: youme/build/debug-info-aab/
           retention-days: 90
+
+      - name: "📤 Upload logs d'échec AAB"
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aab-failure-logs-${{ github.run_number }}
+          path: youme/ci/logs/
+          retention-days: 7
 
   # ═══════════════════════════════════════════════════════════════════════
   # JOB 5 — Rapport de sécurité et commentaire PR
@@ -393,6 +434,7 @@ jobs:
           echo "| Resource shrinking | ✅ shrinkResources true |" >> $GITHUB_STEP_SUMMARY
           echo "| Variables injectées | ✅ GitHub Secrets → --dart-define |" >> $GITHUB_STEP_SUMMARY
           echo "| Keystore temporaire | ✅ Supprimé après build |" >> $GITHUB_STEP_SUMMARY
+          echo "| Auto-correction IA | 🤖 Gemini via ci/retryBuild.js |" >> $GITHUB_STEP_SUMMARY
 
       # ── Commentaire automatique sur les PRs ──────────────────────────
       - name: "💬 Commentaire PR"
@@ -416,6 +458,7 @@ jobs:
                 '- 📦 Split debug info séparé (jamais dans l\'APK)',
                 '- 🛡️ R8 + ProGuard + resource shrinking activés',
                 '- 🔒 Variables sensibles injectées via GitHub Secrets',
+                '- 🤖 Auto-correction IA du build (Gemini) activée',
                 '',
                 `📦 **[Télécharger l\'APK Release](${runUrl})**`,
                 '',
