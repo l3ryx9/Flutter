@@ -22,7 +22,7 @@ def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "
 
 android {
     namespace "com.youme.app"
-    compileSdk 35
+    compileSdk 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -41,7 +41,7 @@ android {
     defaultConfig {
         applicationId "com.youme.app"
         minSdkVersion 21
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         // Inject the Google Maps API key from the CI environment variable
@@ -105,3 +105,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:2.3.0"
     implementation "androidx.security:security-crypto:1.1.0-alpha06"
 }
+
