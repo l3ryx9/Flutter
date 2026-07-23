@@ -1,0 +1,4 @@
+
+.env
+node_modules/
+google-play-service-account.json
